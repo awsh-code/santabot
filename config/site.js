@@ -11,6 +11,10 @@ export const siteConfig = {
       title: "Auth",
       href: "/auth-server-action",
     },
+    {
+      title: "Letters",
+      href: "/letters",
+    },
     // {
     //   title: "Login",
     //   href: "/auth/login",
