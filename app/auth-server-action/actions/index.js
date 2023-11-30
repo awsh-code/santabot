@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 export async function signUpWithEmailAndPassword(data) {
   const supabase = await createSupabaseServerClient();
@@ -26,4 +27,10 @@ export async function loginWithGithub() {
       redirectTo: `http://localhost:3000/auth-server/callback`,
     },
   });
+}
+
+export async function logout() {
+  const supabase = await createSupabaseServerClient();
+  await supabase.auth.signOut();
+  redirect("/auth-server-action");
 }

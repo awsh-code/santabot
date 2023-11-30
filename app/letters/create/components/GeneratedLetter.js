@@ -4,7 +4,7 @@ import React, { useTransition } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import { loadStripe } from "@stripe/stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 
 function GeneratedLetter({ setStep }) {
   const [isPending, startTransition] = useTransition();
@@ -17,15 +17,15 @@ function GeneratedLetter({ setStep }) {
 
   const handleCheckOut = (e) => {
     e.preventDefault();
-    startTransition(async () => {
-      const data = JSON.parse(
-        await checkout(user?.email, location.origin + pathname)
-      );
-      const result = await loadStripe(
-        process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
-      );
-      await result?.redirectToCheckout({ sessionId: data.id });
-    });
+    // startTransition(async () => {
+    //   const data = JSON.parse(
+    //     await checkout(user?.email, location.origin + pathname)
+    //   );
+    //   const result = await loadStripe(
+    //     process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY
+    //   );
+    //   await result?.redirectToCheckout({ sessionId: data.id });
+    // });
   };
   return (
     <div className=" container px-6  mx-auto max-w-xl lg:max-w-3xl ">
