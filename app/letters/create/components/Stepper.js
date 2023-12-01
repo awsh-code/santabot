@@ -7,7 +7,7 @@ function Stepper({ step }) {
       <ol className="grid gap-4 grid-cols-1 overflow-hidden  text-sm sm:grid-cols-1">
         <li>
           <label
-            class={`${
+            className={`${
               step === 1 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
@@ -22,7 +22,7 @@ function Stepper({ step }) {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-receipt"
+              className="lucide lucide-receipt"
             >
               <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z" />
               <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
@@ -36,7 +36,7 @@ function Stepper({ step }) {
         </li>
         <li>
           <label
-            class={`${
+            className={`${
               step === 2 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
@@ -51,7 +51,7 @@ function Stepper({ step }) {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-info"
+              className="lucide lucide-info"
             >
               <circle cx="12" cy="12" r="10" />
               <path d="M12 16v-4" />
@@ -65,7 +65,7 @@ function Stepper({ step }) {
         </li>
         <li>
           <label
-            class={`${
+            className={`${
               step === 3 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
@@ -80,7 +80,7 @@ function Stepper({ step }) {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-scroll-text"
+              className="lucide lucide-scroll-text"
             >
               <path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v3h4" />
               <path d="M19 17V5a2 2 0 0 0-2-2H4" />
@@ -95,7 +95,7 @@ function Stepper({ step }) {
         </li>
         <li>
           <label
-            class={`${
+            className={`${
               step === 4 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
@@ -110,7 +110,7 @@ function Stepper({ step }) {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-palette"
+              className="lucide lucide-palette"
             >
               <circle cx="13.5" cy="6.5" r=".5" />
               <circle cx="17.5" cy="10.5" r=".5" />
@@ -126,7 +126,7 @@ function Stepper({ step }) {
         </li>
         <li>
           <label
-            class={`${
+            className={`${
               step === 5 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
@@ -141,7 +141,7 @@ function Stepper({ step }) {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-mail-check"
+              className="lucide lucide-mail-check"
             >
               <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8" />
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />

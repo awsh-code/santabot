@@ -5,14 +5,8 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
-import { Button } from "./ui/button";
-import SignOut from "./sign-out";
-import { readUserSession } from "@/lib/actions";
-import { UserNav } from "./user/user-nav";
 
-export async function MainNav({ items }) {
-  const { data } = await readUserSession();
-  console.log("data", data.session.user);
+export function MainNav({ items }) {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">
@@ -38,7 +32,6 @@ export async function MainNav({ items }) {
           )}
         </nav>
       ) : null}
-      {data?.session && <UserNav userData={data.session.user} />}
     </div>
   );
 }

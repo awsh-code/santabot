@@ -16,9 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { signInWithEmailAndPassword } from "../actions";
 import { useTransition } from "react";
 import { cn } from "@/lib/utils";
+import createSupabaseBrowerClient from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -28,6 +29,8 @@ const FormSchema = z.object({
 });
 
 export default function SignInForm() {
+  const supabase = createSupabaseBrowerClient();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
@@ -40,9 +43,8 @@ export default function SignInForm() {
 
   function onSubmit(data) {
     startTransition(async () => {
-      const result = await signInWithEmailAndPassword(data);
-      const { error } = JSON.parse(result);
-      if (error?.message)
+      const { error } = await supabase.auth.signInWithPassword(data);
+      if (error?.message) {
         toast({
           variant: "destructive",
           title: "Fail to Login",
@@ -52,6 +54,17 @@ export default function SignInForm() {
             </pre>
           ),
         });
+      } else {
+        toast({
+          title: "You are successfully register.",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">signin complete</code>
+            </pre>
+          ),
+        });
+        router.refresh();
+      }
     });
   }
 

@@ -12,7 +12,7 @@ export function AuthForm() {
       <motion.img
         src="/santa_sleds_with_deers.png"
         alt="candy"
-        class="object-cover  w-[250px] mb-5 "
+        className="object-cover  w-[250px] mb-5 "
         whileTap={{ scale: 0.6 }}
         drag={true}
         dragConstraints={{ left: 50, right: 0, top: 0, bottom: 50 }}
@@ -37,7 +37,7 @@ export function AuthForm() {
       <motion.img
         src="/candy_stick.png"
         alt="candy"
-        class="object-cover  w-[100px]  absolute bottom-0 right-20"
+        className="object-cover  w-[100px]  absolute bottom-0 right-20"
         whileTap={{ scale: 0.6 }}
         drag={true}
         dragConstraints={{ left: 50, right: 0, top: 0, bottom: 50 }}

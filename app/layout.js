@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
         className={`${inter.className} min-h-screen bg-background font-sans antialiased`}
       >
         <Toaster />
-        {/* <SessionProvider /> */}
+        <SessionProvider />
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
           <div className="flex-1">{children}</div>

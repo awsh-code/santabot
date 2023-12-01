@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Lobster, Mountains_of_Christmas } from "next/font/google";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const xmas = Mountains_of_Christmas({
   weight: ["400", "700"],
@@ -33,8 +34,10 @@ export default function IndexPage() {
           Little Stories to Make You Smile
         </p>
         <div className="flex mt-2 gap-4">
-          <Button variant="outline">Send Santa</Button>
-          <Button>Learn More</Button>
+          <Button variant="outline">Learn More</Button>
+          <Button asChild>
+            <Link href="/letters">Send Santa</Link>
+          </Button>
         </div>
       </div>
       <div className="flex justify-center align-middle p-2 relative">
@@ -47,7 +50,7 @@ export default function IndexPage() {
           src="/snowman_angle.png"
           // src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1598&q=80"
           alt="snowman"
-          class="object-cover w-[150px] absolute bottom-0 left-0 "
+          className="object-cover w-[150px] absolute bottom-0 left-0 "
           whileTap={{ scale: 0.9 }}
           drag={true}
           dragConstraints={{ left: 0, right: 250, top: 0, bottom: 50 }}
@@ -58,7 +61,7 @@ export default function IndexPage() {
         <motion.img
           src="/candy_stick.png"
           alt="candy"
-          class="object-cover  w-[100px]  absolute bottom-10 right-36"
+          className="object-cover  w-[100px]  absolute bottom-10 right-36"
           // class="object-cover  w-[100px]  absolute top-[50px] right-[150px]"
           whileTap={{ scale: 0.6 }}
           drag={true}

@@ -8,10 +8,6 @@ export const siteConfig = {
       href: "/",
     },
     {
-      title: "Auth",
-      href: "/auth-server-action",
-    },
-    {
       title: "Letters",
       href: "/letters",
     },

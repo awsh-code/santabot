@@ -9,7 +9,7 @@ import { readUserSession } from "@/lib/actions";
 export default async function AuthServerPage() {
   const { data } = await readUserSession();
   if (data.session) {
-    return redirect("/todo");
+    return redirect("/letters");
   }
   return (
     <div className="flex justify-center items-start  py-8">

@@ -12,17 +12,19 @@ function Pricing({ setStep }) {
         Choose a package
       </p>
 
-      <div class="grid grid-cols-1 gap-8  xl:mt-12 xl:gap-12 md:grid-cols-2 lg:grid-cols-3">
-        <div class="w-full p-8 space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
-          <p class="font-medium text-gray-500 uppercase dark:text-gray-300">
+      <div className="grid grid-cols-1 gap-8  xl:mt-12 xl:gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="w-full p-8 space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
+          <p className="font-medium text-gray-500 uppercase dark:text-gray-300">
             Free
           </p>
 
-          <h2 class="text-4xl font-semibold text-gray-800 uppercase dark:text-gray-100">
+          <h2 className="text-4xl font-semibold text-gray-800 uppercase dark:text-gray-100">
             $0
           </h2>
 
-          <p class="font-medium text-gray-500 dark:text-gray-300">Life time</p>
+          <p className="font-medium text-gray-500 dark:text-gray-300">
+            Life time
+          </p>
           <Button
             onClick={() =>
               setStep((previous) => {
@@ -45,14 +47,14 @@ function Pricing({ setStep }) {
           </button> */}
         </div>
 
-        <div class="w-full p-8 space-y-8 text-center bg-primary rounded-lg">
-          <p class="font-medium text-gray-200 uppercase">Premium</p>
+        <div className="w-full p-8 space-y-8 text-center bg-primary rounded-lg">
+          <p className="font-medium text-gray-200 uppercase">Premium</p>
 
-          <h2 class="text-5xl font-bold text-white uppercase dark:text-gray-100">
+          <h2 className="text-5xl font-bold text-white uppercase dark:text-gray-100">
             $40
           </h2>
 
-          <p class="font-medium text-gray-200">Per month</p>
+          <p className="font-medium text-gray-200">Per month</p>
 
           <Button
             variant="outline"
@@ -69,16 +71,18 @@ function Pricing({ setStep }) {
           </button> */}
         </div>
 
-        <div class="w-full p-8 space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
-          <p class="font-medium text-gray-500 uppercase dark:text-gray-300">
+        <div className="w-full p-8 space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
+          <p className="font-medium text-gray-500 uppercase dark:text-gray-300">
             Enterprise
           </p>
 
-          <h2 class="text-4xl font-semibold text-gray-800 uppercase dark:text-gray-100">
+          <h2 className="text-4xl font-semibold text-gray-800 uppercase dark:text-gray-100">
             $100
           </h2>
 
-          <p class="font-medium text-gray-500 dark:text-gray-300">Life time</p>
+          <p className="font-medium text-gray-500 dark:text-gray-300">
+            Life time
+          </p>
           <Button
             onClick={() =>
               setStep((previous) => {

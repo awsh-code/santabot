@@ -13,7 +13,7 @@ export default async function LettersPage() {
         <img
           src="/envelope.png"
           alt=""
-          class="   w-[200px] object-cover opacity-100 "
+          className="   w-[200px] object-cover opacity-100 "
         />
         <div className="mx-auto max-w-xl text-center">
           <h1 className="text-3xl font-extrabold sm:text-5xl">

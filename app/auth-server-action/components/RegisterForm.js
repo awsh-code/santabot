@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import { signUpWithEmailAndPassword } from "../actions";
+import createSupabaseBrowerClient from "@/lib/supabase/client";
 
 const FormSchema = z
   .object({
@@ -35,9 +35,11 @@ const FormSchema = z
     message: "Password did not match",
     path: ["confirm"],
   });
+
 export default function RegisterForm() {
-  let [isPending, startTransition] = useTransition();
+  const supabase = createSupabaseBrowerClient();
   const router = useRouter();
+  let [isPending, startTransition] = useTransition();
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -50,14 +52,24 @@ export default function RegisterForm() {
 
   function onSubmit(data) {
     startTransition(async () => {
-      const result = await signUpWithEmailAndPassword(data);
-      const { error } = JSON.parse(result);
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            name: "Sofia",
+            email: data.email,
+            avatar_url: "https://i.imgur.com/Z3UwNsJ.png",
+          },
+        },
+      });
+      console.log("error", error);
       if (error?.message) {
         toast({
           variant: "destructive",
           title: "You submitted the following values:",
           description: (
-            <pre className="mt-2  rounded-md bg-slate-950 p-4">
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
               <code className="text-white">{error.message}</code>
             </pre>
           ),
@@ -66,11 +78,12 @@ export default function RegisterForm() {
         toast({
           title: "You are successfully register.",
           description: (
-            <pre className="mt-2  rounded-md bg-slate-950 p-4">
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
               <code className="text-white">register complete</code>
             </pre>
           ),
         });
+        router.refresh();
       }
     });
   }
