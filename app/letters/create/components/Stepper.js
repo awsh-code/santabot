@@ -1,15 +1,19 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { useLetter } from "@/lib/store/letter";
 
 function Stepper({ step }) {
+  const letter = useLetter((state) => state.letter);
+  console.log("letter", letter);
   return (
     <div className="  flex justify-center align-middle sticky top-[6rem]">
       {/* <ol className="grid grid-cols-1 divide-x divide-gray-100 overflow-hidden rounded-lg border border-gray-100 text-sm text-gray-500 sm:grid-cols-1"> */}
-      <ol className="grid gap-4 grid-cols-1 overflow-hidden  text-sm sm:grid-cols-1">
+      <ol className="grid gap-4 grid-cols-3 overflow-hidden  text-sm sm:grid-cols-1">
         <li>
           <label
-            className={`${
+            className={` min-h-[90px] ${
               step === 1 ? "border-primary" : "border-muted"
-            } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
+            } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-2 sm:p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
           >
             <svg
@@ -30,15 +34,15 @@ function Stepper({ step }) {
             </svg>
             <p className="leading-none text-center mt-1">
               <strong className="block font-medium"> Pricing </strong>
-              <small className="mt-1"> Choose a package. </small>
+              <small className=" mt-1"> Choose a package. </small>
             </p>
           </label>
         </li>
         <li>
           <label
-            className={`${
+            className={`min-h-[90px] ${
               step === 2 ? "border-primary" : "border-muted"
-            } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
+            } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent  p-2 sm:p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
           >
             <svg
@@ -65,9 +69,9 @@ function Stepper({ step }) {
         </li>
         <li>
           <label
-            className={`${
+            className={` min-h-[90px] ${
               step === 3 ? "border-primary" : "border-muted"
-            } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
+            } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent  p-2 sm:p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
           >
             <svg
@@ -95,7 +99,7 @@ function Stepper({ step }) {
         </li>
         <li>
           <label
-            className={`${
+            className={`min-h-[90px] ${
               step === 4 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
@@ -126,7 +130,7 @@ function Stepper({ step }) {
         </li>
         <li>
           <label
-            className={`${
+            className={`min-h-[90px] ${
               step === 5 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
             for="paypal"
@@ -152,9 +156,25 @@ function Stepper({ step }) {
                 {" "}
                 Letter preview & Payment{" "}
               </strong>
-              <small className="mt-1"> Show us the money. </small>
+              <small className="mt-1 hidden sm:block">
+                {" "}
+                Show us the money.{" "}
+              </small>
             </p>
           </label>
+        </li>
+        <li>
+          <motion.img
+            src="/santa-head.png"
+            alt="snowman"
+            className="sm:hidden object-cover h-[90px]  "
+            // class="object-cover w-[200px] absolute bottom-0 left-0 "
+            whileTap={{ scale: 0.9 }}
+            drag={true}
+            dragConstraints={{ left: 15, right: 15, top: 15, bottom: 15 }}
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 1 } }}
+          />
         </li>
       </ol>
     </div>

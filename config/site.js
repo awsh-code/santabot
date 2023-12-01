@@ -1,7 +1,6 @@
 export const siteConfig = {
-  name: "Next.js",
-  description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+  name: "Santa Bot",
+  description: "Little stories to make you smile",
   mainNav: [
     {
       title: "Home",

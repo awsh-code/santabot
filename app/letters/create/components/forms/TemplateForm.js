@@ -159,7 +159,7 @@ export function TemplateForm() {
           )}
         />
 
-        <Button className="self-end" type="submit">
+        <Button className="self-center sm:self-end" type="submit">
           Update preferences
         </Button>
       </form>

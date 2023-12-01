@@ -207,7 +207,7 @@ export function ChildDetailsForm() {
             Add nice things
           </Button>
         </div>
-        <div className="col-span-6 sm:flex sm:items-center justify-end sm:gap-4">
+        <div className="col-span-6 flex items-center sm:flex sm:items-center justify-center sm:justify-end sm:gap-4">
           <Button type="submit">Continue</Button>
         </div>
       </form>

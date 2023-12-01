@@ -32,6 +32,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
+import { useLetter } from "@/lib/store/letter";
 
 const genders = [
   { label: "Boy", value: "boy" },
@@ -72,6 +73,7 @@ const defaultValues = {
 };
 
 export function ChildInfoForm() {
+  const updateChildInfo = useLetter((state) => state.updateChildInfo);
   const form = useForm({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
@@ -83,6 +85,7 @@ export function ChildInfoForm() {
   });
 
   function onSubmit(data) {
+    updateChildInfo(data);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -257,10 +260,10 @@ export function ChildInfoForm() {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormMessage />
                   <button type="button" onClick={() => remove(index)}>
                     Delete
                   </button>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -275,7 +278,7 @@ export function ChildInfoForm() {
             Add Toys/Things
           </Button>
         </div>
-        <div className="col-span-6 sm:flex sm:items-center justify-end sm:gap-4">
+        <div className="col-span-6 flex items-center sm:flex sm:items-center justify-center sm:justify-end sm:gap-4">
           <Button type="submit">Continue</Button>
         </div>
       </form>

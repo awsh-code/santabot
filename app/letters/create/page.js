@@ -8,14 +8,14 @@ function CreatePage() {
   const [step, setStep] = useState(1);
   return (
     <section className="  grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mx-auto max-w-screen-xl px-4 py-8 min-h-[520px] ">
-      <div className=" rounded-lg h-full ">
+      <div className="  h-full ">
         <Stepper step={step} />
       </div>
 
       <motion.img
         src="/santa-head.png"
         alt="snowman"
-        className="object-cover w-[200px] rotate-90 absolute top-24 left-[-25px] "
+        className="hidden sm:block object-cover w-[200px] rotate-90 absolute top-24 left-[-25px] "
         // class="object-cover w-[200px] absolute bottom-0 left-0 "
         whileTap={{ scale: 0.9 }}
         drag={true}

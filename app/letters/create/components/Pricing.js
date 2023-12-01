@@ -1,19 +1,21 @@
 import { Button } from "@/components/ui/button";
+import { useLetter } from "@/lib/store/letter";
 import React from "react";
 
 function Pricing({ setStep }) {
+  const increaseStep = useLetter((state) => state.increaseStep);
   return (
-    <div className=" container px-6  mx-auto max-w-xl lg:max-w-3xl">
+    <div className=" container px-0 sm:px-6  mx-auto max-w-xl lg:max-w-3xl">
       <h1 className=" text-2xl text-center font-bold text-gray-900 sm:text-3xl md:text-4xl">
         Santa Bot is coming to town!
       </h1>
 
-      <p className="text-center mt-4 leading-relaxed text-gray-500">
+      <p className="text-center mt-4 mb-4 leading-relaxed text-gray-500">
         Choose a package
       </p>
 
-      <div className="grid grid-cols-1 gap-8  xl:mt-12 xl:gap-12 md:grid-cols-2 lg:grid-cols-3">
-        <div className="w-full p-8 space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
+      <div className="grid grid-cols-3 sm:grid-cols-1 gap-1 sm:gap-8 xl:mt-12 xl:gap-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="min-h-[250px]  flex flex-col gap-3 justify-center w-full p-1 sm:p-8 sm:space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
           <p className="font-medium text-gray-500 uppercase dark:text-gray-300">
             Free
           </p>
@@ -26,11 +28,12 @@ function Pricing({ setStep }) {
             Life time
           </p>
           <Button
-            onClick={() =>
+            onClick={() => {
+              increaseStep();
               setStep((previous) => {
                 return previous + 1;
-              })
-            }
+              });
+            }}
           >
             Start Now
           </Button>
@@ -47,7 +50,7 @@ function Pricing({ setStep }) {
           </button> */}
         </div>
 
-        <div className="w-full p-8 space-y-8 text-center bg-primary rounded-lg">
+        <div className="min-h-[250px] flex flex-col gap-3 justify-center w-full p-1 sm:p-8 sm:space-y-8 text-center bg-primary rounded-lg">
           <p className="font-medium text-gray-200 uppercase">Premium</p>
 
           <h2 className="text-5xl font-bold text-white uppercase dark:text-gray-100">
@@ -58,11 +61,12 @@ function Pricing({ setStep }) {
 
           <Button
             variant="outline"
-            onClick={() =>
+            onClick={() => {
+              increaseStep();
               setStep((previous) => {
                 return previous + 1;
-              })
-            }
+              });
+            }}
           >
             Start Now
           </Button>
@@ -71,7 +75,7 @@ function Pricing({ setStep }) {
           </button> */}
         </div>
 
-        <div className="w-full p-8 space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
+        <div className="min-h-[250px] flex flex-col gap-3 justify-center w-full p-1 sm:p-8 sm:space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
           <p className="font-medium text-gray-500 uppercase dark:text-gray-300">
             Enterprise
           </p>
@@ -84,11 +88,12 @@ function Pricing({ setStep }) {
             Life time
           </p>
           <Button
-            onClick={() =>
+            onClick={() => {
+              increaseStep();
               setStep((previous) => {
                 return previous + 1;
-              })
-            }
+              });
+            }}
           >
             Start Now
           </Button>
