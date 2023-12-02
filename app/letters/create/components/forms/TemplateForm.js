@@ -18,11 +18,12 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/components/ui/use-toast";
+import { useLetter } from "@/lib/store/letter";
 // import { useTransform } from "framer-motion";
 
 const appearanceFormSchema = z.object({
-  theme: z.enum(["light", "dark"], {
-    required_error: "Please select a theme.",
+  template: z.enum(["light", "dark"], {
+    required_error: "Please select a template.",
   }),
   font: z.enum(["inter", "manrope", "system"], {
     invalid_type_error: "Select a font",
@@ -32,7 +33,7 @@ const appearanceFormSchema = z.object({
 
 // This can come from your database or API.
 const defaultValues = {
-  theme: "light",
+  template: "light",
 };
 
 export function TemplateForm() {
@@ -40,8 +41,12 @@ export function TemplateForm() {
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
   });
+  const updateTemplateDetails = useLetter(
+    (state) => state.updateTemplateDetails
+  );
 
   function onSubmit(data) {
+    updateTemplateDetails(data);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -89,12 +94,12 @@ export function TemplateForm() {
         />
         <FormField
           control={form.control}
-          name="theme"
+          name="template"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel>Theme</FormLabel>
+              <FormLabel>template</FormLabel>
               <FormDescription>
-                Select the theme for the letter.
+                Select the template for the letter.
               </FormDescription>
               <FormMessage />
               <RadioGroup

@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { toast } from "@/components/ui/use-toast";
+import { useLetter } from "@/lib/store/letter";
 
 const accountFormSchema = z.object({
   bad: z
@@ -84,8 +85,10 @@ export function ChildDetailsForm() {
     name: "other",
     control: form.control,
   });
+  const updateChildDetails = useLetter((state) => state.updateChildDetails);
 
   function onSubmit(data) {
+    updateChildDetails(data);
     toast({
       title: "You submitted the following values:",
       description: (
