@@ -4,7 +4,7 @@ import { useLetter } from "@/lib/store/letter";
 
 function Stepper({ step }) {
   const letter = useLetter((state) => state.letter);
-  console.log("letter", letter);
+  console.log("letter", letter.step);
   return (
     <div className="  flex justify-center align-middle sticky top-[6rem]">
       {/* <ol className="grid grid-cols-1 divide-x divide-gray-100 overflow-hidden rounded-lg border border-gray-100 text-sm text-gray-500 sm:grid-cols-1"> */}
@@ -12,9 +12,9 @@ function Stepper({ step }) {
         <li>
           <label
             className={` min-h-[90px] ${
-              step === 1 ? "border-primary" : "border-muted"
+              letter.step === 1 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-2 sm:p-4 hover:bg-accent hover:text-accent-foreground `}
-            for="paypal"
+            htmlFor="paypal"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,9 +41,9 @@ function Stepper({ step }) {
         <li>
           <label
             className={`min-h-[90px] ${
-              step === 2 ? "border-primary" : "border-muted"
+              letter.step === 2 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent  p-2 sm:p-4 hover:bg-accent hover:text-accent-foreground `}
-            for="paypal"
+            htmlFor="paypal"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -70,9 +70,9 @@ function Stepper({ step }) {
         <li>
           <label
             className={` min-h-[90px] ${
-              step === 3 ? "border-primary" : "border-muted"
+              letter.step === 3 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent  p-2 sm:p-4 hover:bg-accent hover:text-accent-foreground `}
-            for="paypal"
+            htmlFor="paypal"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -100,9 +100,9 @@ function Stepper({ step }) {
         <li>
           <label
             className={`min-h-[90px] ${
-              step === 4 ? "border-primary" : "border-muted"
+              letter.step === 4 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
-            for="paypal"
+            htmlFor="paypal"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -131,9 +131,9 @@ function Stepper({ step }) {
         <li>
           <label
             className={`min-h-[90px] ${
-              step === 5 ? "border-primary" : "border-muted"
+              letter.step === 5 ? "border-primary" : "border-muted"
             } text-sm font-medium leading-none  flex flex-col items-center justify-between rounded-md border-2  bg-transparent p-4 hover:bg-accent hover:text-accent-foreground `}
-            for="paypal"
+            htmlFor="paypal"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

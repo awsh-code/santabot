@@ -44,9 +44,11 @@ export function TemplateForm() {
   const updateTemplateDetails = useLetter(
     (state) => state.updateTemplateDetails
   );
+  const increaseStep = useLetter((state) => state.increaseStep);
 
   function onSubmit(data) {
     updateTemplateDetails(data);
+    increaseStep();
     toast({
       title: "You submitted the following values:",
       description: (

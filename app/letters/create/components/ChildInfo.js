@@ -1,7 +1,7 @@
 import React from "react";
 import { ChildInfoForm } from "./forms/ChildInfoForm";
 
-function ChildInfo({ setStep }) {
+function ChildInfo() {
   return (
     <div className="container px-6  mx-auto max-w-xl lg:max-w-3xl">
       <h1 className=" text-2xl text-center font-bold text-gray-900 sm:text-3xl md:text-4xl">
@@ -109,7 +109,7 @@ function ChildInfo({ setStep }) {
           </button>
         </div>
       </form> */}
-      <div className="col-span-6 sm:flex sm:items-center justify-end sm:gap-4">
+      {/* <div className="col-span-6 sm:flex sm:items-center justify-end sm:gap-4">
         <button
           onClick={() =>
             setStep((previous) => {
@@ -120,7 +120,7 @@ function ChildInfo({ setStep }) {
         >
           Continue
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

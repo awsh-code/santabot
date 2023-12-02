@@ -10,7 +10,6 @@ export default function SessionProvider() {
 
   const readUserSession = async () => {
     const { data } = await supabase.auth.getSession();
-    console.log("dataaaa", data);
     setUser(data.session?.user);
   };
 

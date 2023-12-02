@@ -5,15 +5,17 @@ import ChildInfo from "./ChildInfo";
 import ChildDetails from "./ChildDetails";
 import SelectTone from "./SelectTone";
 import GeneratedLetter from "./GeneratedLetter";
+import { useLetter } from "@/lib/store/letter";
 
-function StepContent({ step, setStep }) {
+function StepContent({}) {
+  const letter = useLetter((state) => state.letter);
   return (
     <>
-      {step === 1 && <Pricing setStep={setStep} />}
-      {step === 2 && <ChildInfo setStep={setStep} />}
-      {step === 3 && <ChildDetails setStep={setStep} />}
-      {step === 4 && <SelectTone setStep={setStep} />}
-      {step === 5 && <GeneratedLetter setStep={setStep} />}
+      {letter.step === 1 && <Pricing />}
+      {letter.step === 2 && <ChildInfo />}
+      {letter.step === 3 && <ChildDetails />}
+      {letter.step === 4 && <SelectTone />}
+      {letter.step === 5 && <GeneratedLetter />}
       {/* step 2 */}
       {/* step 3 */}
     </>

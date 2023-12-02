@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 import { useLetter } from "@/lib/store/letter";
 import React from "react";
 
-function Pricing({ setStep }) {
+function Pricing() {
   const increaseStep = useLetter((state) => state.increaseStep);
+  const updateLetterPackage = useLetter((state) => state.updateLetterPackage);
   return (
     <div className=" container px-0 sm:px-6  mx-auto max-w-xl lg:max-w-3xl">
       <h1 className=" text-2xl text-center font-bold text-gray-900 sm:text-3xl md:text-4xl">
@@ -30,9 +31,10 @@ function Pricing({ setStep }) {
           <Button
             onClick={() => {
               increaseStep();
-              setStep((previous) => {
-                return previous + 1;
-              });
+              updateLetterPackage("pack-1");
+              // setStep((previous) => {
+              //   return previous + 1;
+              // });
             }}
           >
             Start Now
@@ -62,10 +64,11 @@ function Pricing({ setStep }) {
           <Button
             variant="outline"
             onClick={() => {
+              updateLetterPackage("pack-2");
               increaseStep();
-              setStep((previous) => {
-                return previous + 1;
-              });
+              // setStep((previous) => {
+              //   return previous + 1;
+              // });
             }}
           >
             Start Now
@@ -89,10 +92,11 @@ function Pricing({ setStep }) {
           </p>
           <Button
             onClick={() => {
+              updateLetterPackage("pack-3");
               increaseStep();
-              setStep((previous) => {
-                return previous + 1;
-              });
+              // setStep((previous) => {
+              //   return previous + 1;
+              // });
             }}
           >
             Start Now

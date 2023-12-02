@@ -29,8 +29,6 @@ export function UserNav() {
     });
   };
 
-  console.log("user", user?.user_metadata);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

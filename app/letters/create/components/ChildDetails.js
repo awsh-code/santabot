@@ -1,7 +1,7 @@
 import React from "react";
 import { ChildDetailsForm } from "./forms/ChildDetailsForm";
 
-function ChildDetails({ setStep }) {
+function ChildDetails() {
   return (
     <div className="container px-6  mx-auto max-w-xl lg:max-w-3xl">
       <h1 className=" text-2xl text-center font-bold text-gray-900 sm:text-3xl md:text-4xl">
@@ -118,7 +118,7 @@ function ChildDetails({ setStep }) {
           </button>
         </div>
       </form> */}
-      <div className="col-span-6 sm:flex sm:items-center justify-between sm:gap-4">
+      {/* <div className="col-span-6 sm:flex sm:items-center justify-between sm:gap-4">
         <button
           onClick={() =>
             setStep((previous) => {
@@ -139,7 +139,7 @@ function ChildDetails({ setStep }) {
         >
           Continue
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

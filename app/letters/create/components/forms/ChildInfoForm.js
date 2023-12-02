@@ -74,6 +74,7 @@ const defaultValues = {
 
 export function ChildInfoForm() {
   const updateChildInfo = useLetter((state) => state.updateChildInfo);
+  const increaseStep = useLetter((state) => state.increaseStep);
   const form = useForm({
     resolver: zodResolver(accountFormSchema),
     defaultValues,
@@ -86,6 +87,7 @@ export function ChildInfoForm() {
 
   function onSubmit(data) {
     updateChildInfo(data);
+    increaseStep();
     toast({
       title: "You submitted the following values:",
       description: (

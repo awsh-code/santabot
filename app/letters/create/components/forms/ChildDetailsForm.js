@@ -86,9 +86,10 @@ export function ChildDetailsForm() {
     control: form.control,
   });
   const updateChildDetails = useLetter((state) => state.updateChildDetails);
-
+  const increaseStep = useLetter((state) => state.increaseStep);
   function onSubmit(data) {
     updateChildDetails(data);
+    increaseStep();
     toast({
       title: "You submitted the following values:",
       description: (
