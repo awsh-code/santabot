@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useLetter } from "@/lib/store/letter";
 
-function Stepper({ step }) {
+function Stepper() {
   const letter = useLetter((state) => state.letter);
   console.log("letter", letter.step);
   return (

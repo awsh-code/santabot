@@ -7,7 +7,7 @@ import SelectTone from "./SelectTone";
 import GeneratedLetter from "./GeneratedLetter";
 import { useLetter } from "@/lib/store/letter";
 
-function StepContent({}) {
+function StepContent() {
   const letter = useLetter((state) => state.letter);
   return (
     <>

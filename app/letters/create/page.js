@@ -25,7 +25,7 @@ function CreatePage() {
       />
       <div className=" h-full  lg:col-span-2 ">
         {/* steps */}
-        <StepContent step={step} setStep={setStep} />
+        <StepContent />
       </div>
     </section>
   );
