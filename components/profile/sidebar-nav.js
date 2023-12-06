@@ -25,7 +25,8 @@ export function SidebarNav({ className, items, ...props }) {
             buttonVariants({ variant: "default" }),
             pathname === item.href
               ? "bg-muted hover:bg-muted"
-              : "hover:bg-transparent hover:underline",
+              : "bg-transparent hover:underline hover:text-white",
+            // : "hover:bg-transparent hover:underline",
             "justify-start text-muted-foreground "
           )}
         >

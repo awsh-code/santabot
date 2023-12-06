@@ -1,4 +1,5 @@
 import { Separator } from "@/components/ui/separator";
+import { AddressForm } from "./components/AddressForm";
 // import { ProfileForm } from "@/components/settings/profile-form";
 
 // import { ProfileForm } from "@/app/examples/forms/profile-form"

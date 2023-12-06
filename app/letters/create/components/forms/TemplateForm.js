@@ -19,6 +19,8 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/components/ui/use-toast";
 import { useLetter } from "@/lib/store/letter";
+import { useOverlayBlocker } from "@/components/overlay-blocker";
+import { useEffect } from "react";
 // import { useTransform } from "framer-motion";
 
 const appearanceFormSchema = z.object({
@@ -167,7 +169,7 @@ export function TemplateForm() {
         />
 
         <Button className="self-center sm:self-end" type="submit">
-          Update preferences
+          Continue
         </Button>
       </form>
     </Form>

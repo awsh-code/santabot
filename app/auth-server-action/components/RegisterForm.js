@@ -57,7 +57,7 @@ export default function RegisterForm() {
         password: data.password,
         options: {
           data: {
-            name: "Sofia",
+            user_name: "Sofia",
             email: data.email,
             avatar_url: "https://i.imgur.com/Z3UwNsJ.png",
           },

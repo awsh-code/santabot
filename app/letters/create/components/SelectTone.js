@@ -16,7 +16,7 @@ function SelectTone({ setStep }) {
 
       {/* <ToneForm setStep={setStep} /> */}
       <TemplateForm setStep={setStep} />
-      <div className="col-span-6 sm:flex sm:items-center justify-between sm:gap-4">
+      {/* <div className="col-span-6 sm:flex sm:items-center justify-between sm:gap-4">
         <button
           onClick={() =>
             setStep((previous) => {
@@ -37,7 +37,7 @@ function SelectTone({ setStep }) {
         >
           Continue
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

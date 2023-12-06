@@ -1,12 +1,20 @@
 "use client";
-import React, { useTransition } from "react";
+import React, { useEffect, useTransition } from "react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { useOverlayBlocker } from "@/components/overlay-blocker";
 // import { loadStripe } from "@stripe/stripe-js";
 
-function GeneratedLetter({ setStep }) {
+function GeneratedLetter() {
+  const { lockApp, unlockApp } = useOverlayBlocker();
+
+  useEffect(() => {
+    lockApp();
+    setTimeout(() => unlockApp(), 5000);
+  }, []);
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
 
@@ -55,7 +63,9 @@ function GeneratedLetter({ setStep }) {
         </CardContent>
       </Card>
       <div className="flex items-center justify-center mt-4">
-        <Button>Next to Payment</Button>
+        <Button asChild>
+          <Link href="/letters/checkout">Next to Payment</Link>
+        </Button>
       </div>
     </div>
   );

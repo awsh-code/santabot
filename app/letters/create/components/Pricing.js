@@ -1,10 +1,32 @@
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useLetter } from "@/lib/store/letter";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import ProductCard from "./ProductCard";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Pricing() {
   const increaseStep = useLetter((state) => state.increaseStep);
   const updateLetterPackage = useLetter((state) => state.updateLetterPackage);
+
+  const [products, setProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+
+  const getProducts = async () => {
+    setLoadingProducts(true);
+    const response = await fetch("/api/products");
+    const prods = await response.json();
+    setProducts(prods);
+    setLoadingProducts(false);
+  };
+
+  const handleProductSelection = (product) => {
+    updateLetterPackage(product);
+    increaseStep();
+  };
+  useEffect(() => {
+    getProducts();
+  }, []);
   return (
     <div className=" container px-0 sm:px-6  mx-auto max-w-xl lg:max-w-3xl">
       <h1 className=" text-2xl text-center font-bold text-gray-900 sm:text-3xl md:text-4xl">
@@ -16,96 +38,27 @@ function Pricing() {
       </p>
 
       <div className="grid grid-cols-3 sm:grid-cols-1 gap-1 sm:gap-8 xl:mt-12 xl:gap-12 md:grid-cols-2 lg:grid-cols-3">
-        <div className="min-h-[250px]  flex flex-col gap-3 justify-center w-full p-1 sm:p-8 sm:space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
-          <p className="font-medium text-gray-500 uppercase dark:text-gray-300">
-            Free
-          </p>
-
-          <h2 className="text-4xl font-semibold text-gray-800 uppercase dark:text-gray-100">
-            $0
-          </h2>
-
-          <p className="font-medium text-gray-500 dark:text-gray-300">
-            Life time
-          </p>
-          <Button
-            onClick={() => {
-              increaseStep();
-              updateLetterPackage("pack-1");
-              // setStep((previous) => {
-              //   return previous + 1;
-              // });
-            }}
-          >
-            Start Now
-          </Button>
-
-          {/* <button
-            onClick={() =>
-              setStep((previous) => {
-                return previous + 1;
-              })
-            }
-            class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 focus:ring focus:ring-blue-300 focus:ring-opacity-80"
-          >
-            Start Now
-          </button> */}
-        </div>
-
-        <div className="min-h-[250px] flex flex-col gap-3 justify-center w-full p-1 sm:p-8 sm:space-y-8 text-center bg-primary rounded-lg">
-          <p className="font-medium text-gray-200 uppercase">Premium</p>
-
-          <h2 className="text-5xl font-bold text-white uppercase dark:text-gray-100">
-            $40
-          </h2>
-
-          <p className="font-medium text-gray-200">Per month</p>
-
-          <Button
-            variant="outline"
-            onClick={() => {
-              updateLetterPackage("pack-2");
-              increaseStep();
-              // setStep((previous) => {
-              //   return previous + 1;
-              // });
-            }}
-          >
-            Start Now
-          </Button>
-          {/* <button class="w-full px-4 py-2 mt-10 tracking-wide text-blue-500 capitalize transition-colors duration-300 transform bg-white rounded-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:ring focus:ring-gray-200 focus:ring-opacity-80">
-            Start Now
-          </button> */}
-        </div>
-
-        <div className="min-h-[250px] flex flex-col gap-3 justify-center w-full p-1 sm:p-8 sm:space-y-8 text-center border border-gray-200 rounded-lg dark:border-gray-700">
-          <p className="font-medium text-gray-500 uppercase dark:text-gray-300">
-            Enterprise
-          </p>
-
-          <h2 className="text-4xl font-semibold text-gray-800 uppercase dark:text-gray-100">
-            $100
-          </h2>
-
-          <p className="font-medium text-gray-500 dark:text-gray-300">
-            Life time
-          </p>
-          <Button
-            onClick={() => {
-              updateLetterPackage("pack-3");
-              increaseStep();
-              // setStep((previous) => {
-              //   return previous + 1;
-              // });
-            }}
-          >
-            Start Now
-          </Button>
-          {/* 
-          <button class="w-full px-4 py-2 mt-10 tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500 focus:ring focus:ring-blue-300 focus:ring-opacity-80">
-            Start Now
-          </button> */}
-        </div>
+        {loadingProducts ? (
+          <>
+            <Skeleton className=" min-h-[250px] rounded-lg" />
+            <Skeleton className=" min-h-[250px] rounded-lg" />
+            <Skeleton className=" min-h-[250px] rounded-lg" />
+          </>
+        ) : (
+          <>
+            {products.length > 0 ? (
+              products.map((product, index) => (
+                <ProductCard
+                  key={index}
+                  product={product}
+                  handleProductSelection={handleProductSelection}
+                />
+              ))
+            ) : (
+              <p>No products found</p>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
