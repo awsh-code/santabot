@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useOverlayBlocker } from "@/components/overlay-blocker";
+import TestCard from "../../success/components/TestCard";
 // import { loadStripe } from "@stripe/stripe-js";
 
 function GeneratedLetter() {
@@ -36,7 +37,8 @@ function GeneratedLetter() {
     // });
   };
   return (
-    <div className=" container px-6  mx-auto max-w-xl lg:max-w-3xl ">
+    // <div className=" container px-6  mx-auto max-w-xl lg:max-w-3xl ">
+    <div className=" container flex flex-col justify-center items-center px-6  mx-auto max-w-xl lg:max-w-3xl ">
       <h1 className=" text-2xl text-center font-bold text-gray-900 sm:text-3xl md:text-4xl">
         Generated Letter Response
       </h1>
@@ -46,8 +48,16 @@ function GeneratedLetter() {
         dolorum aliquam, quibusdam aperiam voluptatum.
       </p>
       <br />
+      <div className="flex items-center justify-center mt-4">
+        <Button asChild>
+          <Link href="/letters/checkout">Next to Payment</Link>
+        </Button>
+      </div>
+      <div className="w-[500px]">
+        <TestCard />
+      </div>
 
-      <Card>
+      {/* <Card>
         <CardContent className="p-4">
           <p>
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -61,12 +71,12 @@ function GeneratedLetter() {
             PageMaker including versions of Lorem Ipsum.
           </p>
         </CardContent>
-      </Card>
-      <div className="flex items-center justify-center mt-4">
+      </Card> */}
+      {/* <div className="flex items-center justify-center mt-4">
         <Button asChild>
           <Link href="/letters/checkout">Next to Payment</Link>
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 }

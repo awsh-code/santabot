@@ -1,5 +1,10 @@
-import { BellIcon, EyeNoneIcon, PersonIcon } from "@radix-ui/react-icons";
-
+"use client";
+import {
+  BellIcon,
+  EyeNoneIcon,
+  IdCardIcon,
+  PersonIcon,
+} from "@radix-ui/react-icons";
 import {
   Card,
   CardContent,
@@ -7,19 +12,39 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { useLetter } from "@/lib/store/letter";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import AddressCardList from "@/app/profile/components/AddressCardList";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { SelectAddressForm } from "../../create/components/forms/SelectAddressForm";
 
-export function AddressCard() {
+export function AddressCard({ userAddresses }) {
+  console.log("userAddresses", userAddresses);
   return (
-    <Card className="flex">
-      <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <Card>
         <CardHeader className="pb-3">
           <CardTitle>Address</CardTitle>
           <CardDescription>Choose your shipping address.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-accent hover:text-accent-foreground">
-            <img className="mt-px h-10 w-10" src="/gift-box.png" />
-            {/* <BellIcon className="mt-px h-5 w-5" /> */}
+          <SelectAddressForm userAddresses={userAddresses} />
+
+          {/* <ScrollArea className=" ">
+            <div className="p-4 ">
+              {userAddresses.map((address) => (
+                <AddressCardList key={address.id} address={address} />
+              ))}
+            </div>
+          </ScrollArea> */}
+          {/* <div className="-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-accent hover:text-accent-foreground">
+            <IdCardIcon className="mt-px h-5 w-5" />
             <div className="space-y-1">
               <p className="text-sm font-medium leading-none">Name</p>
               <p className="text-sm text-muted-foreground">John Doe</p>
@@ -32,34 +57,10 @@ export function AddressCard() {
               <p className="text-sm font-medium leading-none">Country</p>
               <p className="text-sm text-muted-foreground">United states</p>
             </div>
-          </div>
+          </div> */}
         </CardContent>
-      </div>
-      <div>
-        <CardHeader className="pb-3">
-          <CardTitle>Address</CardTitle>
-          <CardDescription>Choose your shipping address.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="-mx-2 flex items-start space-x-4 rounded-md p-2 transition-all hover:bg-accent hover:text-accent-foreground">
-            <img className="mt-px h-10 w-10" src="/gift-box.png" />
-            {/* <BellIcon className="mt-px h-5 w-5" /> */}
-            <div className="space-y-1">
-              <p className="text-sm font-medium leading-none">Name</p>
-              <p className="text-sm text-muted-foreground">John Doe</p>
-              <p className="text-sm font-medium leading-none">Address</p>
-              <p className="text-sm text-muted-foreground">Land o lakes</p>
-              <p className="text-sm font-medium leading-none">Zipcode</p>
-              <p className="text-sm text-muted-foreground">666</p>
-              <p className="text-sm font-medium leading-none">City</p>
-              <p className="text-sm text-muted-foreground">Tampa</p>
-              <p className="text-sm font-medium leading-none">Country</p>
-              <p className="text-sm text-muted-foreground">United states</p>
-            </div>
-          </div>
-        </CardContent>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
 // name: addressDetails.name,

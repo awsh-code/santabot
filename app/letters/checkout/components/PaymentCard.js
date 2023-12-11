@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
@@ -21,9 +22,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { loadStripe } from "@stripe/stripe-js";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLetter } from "@/lib/store/letter";
+import { useOverlayBlocker } from "@/components/overlay-blocker";
+import { useRouter } from "next/navigation";
 
-export function PaymentCard() {
+export function PaymentCard({ userAddresses }) {
+  const router = useRouter();
+  // router.push("/letters/success");
+  const letterCartState = useLetter((state) => state);
+  const resetLetter = useLetter((state) => state.resetLetter);
+  const { lockApp, unlockApp } = useOverlayBlocker();
+
+  console.log("userAddresses", userAddresses);
+  console.log("letterCartState", letterCartState);
+  console.log("letterCartState.letterPackage", letterCartState.letterPackage);
   let stripe = useRef(null);
   let elements = useRef(null);
   let card = useRef(null);
@@ -39,14 +52,12 @@ export function PaymentCard() {
     stripe.current = await loadStripe(
       process.env.NEXT_PUBLIC_STRIPE_PK_KEY || ""
     );
-    console.log("not working");
 
     const response = await fetch("/api/stripe", {
       method: "POST",
       body: JSON.stringify({ amount: 200 }),
       // body: JSON.stringify({ amount: cart.cartTotal() }),
     });
-    console.log("response", response);
     const result = await response.json();
 
     clientSecret.current = result.client_secret;
@@ -73,38 +84,45 @@ export function PaymentCard() {
     });
   };
 
+  const [isPaying, setIsPaying] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const pay = async (event) => {
     event.preventDefault();
+    setIsPaying(true);
+    lockApp();
 
-    // if (Object.entries(addressDetails).length == 0) {
-    //   showError("Please add shipping address!");
-    //   return;
-    // }
+    if (Object.entries(userAddresses).length == 0) {
+      toast({
+        title: "Please add an address",
+      });
+      return;
+    }
 
     let result = await stripe.current.confirmCardPayment(clientSecret.current, {
       payment_method: { card: card.current },
     });
 
     if (result.error) {
-      alert("err result");
-      console.log("error", result.error);
+      unlockApp();
+      setIsPaying(false);
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: result.error.message,
+      });
       // showError(result.error.message);
     } else {
       // useIsLoading(true)
       const addressDetails = {
-        name: "John",
-        address: "Land o lakes",
-        zipcode: "4009",
-        city: "tampa",
-        country: "united states",
+        name: userAddresses.name,
+        address: userAddresses.address,
+        zipcode: userAddresses.zipcode,
+        city: userAddresses.city,
+        country: userAddresses.country,
       };
       const cart = [
         {
-          title: "Carbon Package",
-          description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-          url: "https://picsum.photos/id/20",
-          price: 1999,
+          ...letterCartState.letterPackage,
         },
       ];
 
@@ -119,28 +137,26 @@ export function PaymentCard() {
             city: addressDetails.city,
             country: addressDetails.country,
             products: cart,
-            total: 300,
+            total: letterCartState.letterPackage.price,
             // products: cart.getCart(),
             // total: cart.cartTotal()
           }),
         });
 
         if (response.status == 200) {
-          alert("SUCESS");
+          unlockApp();
           // toast.success("Order Complete!", { autoClose: 3000 });
           toast({
             title: "Order Complete!",
-            // description: (
-            //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            //     <code className="text-white">register complete</code>
-            //   </pre>
-            // ),
           });
+          router.push("/letters/success");
+          resetLetter();
           // cart.clearCart();
-          // return router.push("/success");
         }
       } catch (error) {
         console.log(error);
+        setIsPaying(false);
+        unlockApp();
         toast({
           variant: "destructive",
           title: "Something went wrong?",
@@ -157,194 +173,94 @@ export function PaymentCard() {
     }
   };
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Payment Method</CardTitle>
-        <CardDescription>
-          Add a new payment method to your account.
-        </CardDescription>
-      </CardHeader>
-      {/* <CardContent className="grid gap-6">
-        <RadioGroup defaultValue="card" className="grid grid-cols-3 gap-4">
-          <div>
-            <RadioGroupItem value="card" id="card" className="peer sr-only" />
-            <Label
-              htmlFor="card"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="mb-3 h-6 w-6"
-              >
-                <rect width="20" height="14" x="2" y="5" rx="2" />
-                <path d="M2 10h20" />
-              </svg>
-              Card
-            </Label>
-          </div>
-          <div>
-            <RadioGroupItem
-              disabled
-              value="paypal"
-              id="paypal"
-              className="peer sr-only"
-            />
-            <Label
-              htmlFor="paypal"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-            >
-              <Icons.paypal className="mb-3 h-6 w-6" />
-              Paypal
-            </Label>
-          </div>
-          <div>
-            <RadioGroupItem
-              value="apple"
-              id="apple"
-              className="peer sr-only"
-              disabled
-            />
-            <Label
-              htmlFor="apple"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-            >
-              <Icons.apple className="mb-3 h-6 w-6" />
-              Apple
-            </Label>
-          </div>
-        </RadioGroup>
-        <div className="grid gap-2">
-          <Label htmlFor="name">Name</Label>
-          <Input id="name" placeholder="First Last" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="number">Card number</Label>
-          <Input id="number" placeholder="" />
-        </div>
-        <div className="grid grid-cols-3 gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="month">Expires</Label>
-            <Select>
-              <SelectTrigger id="month">
-                <SelectValue placeholder="Month" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">January</SelectItem>
-                <SelectItem value="2">February</SelectItem>
-                <SelectItem value="3">March</SelectItem>
-                <SelectItem value="4">April</SelectItem>
-                <SelectItem value="5">May</SelectItem>
-                <SelectItem value="6">June</SelectItem>
-                <SelectItem value="7">July</SelectItem>
-                <SelectItem value="8">August</SelectItem>
-                <SelectItem value="9">September</SelectItem>
-                <SelectItem value="10">October</SelectItem>
-                <SelectItem value="11">November</SelectItem>
-                <SelectItem value="12">December</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="year">Year</Label>
-            <Select>
-              <SelectTrigger id="year">
-                <SelectValue placeholder="Year" />
-              </SelectTrigger>
-              <SelectContent>
-                {Array.from({ length: 10 }, (_, i) => (
-                  <SelectItem key={i} value={`${new Date().getFullYear() + i}`}>
-                    {new Date().getFullYear() + i}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="cvc">CVC</Label>
-            <Input id="cvc" placeholder="CVC" />
-          </div>
-        </div>
-      </CardContent> */}
-      <CardContent className="grid gap-6">
-        <RadioGroup defaultValue="card" className="grid grid-cols-3 gap-4">
-          <div>
-            <RadioGroupItem value="card" id="card" className="peer sr-only" />
-            <Label
-              htmlFor="card"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="mb-3 h-6 w-6"
-              >
-                <rect width="20" height="14" x="2" y="5" rx="2" />
-                <path d="M2 10h20" />
-              </svg>
-              Card
-            </Label>
-          </div>
-          <div>
-            <RadioGroupItem
-              disabled
-              value="paypal"
-              id="paypal"
-              className="peer sr-only"
-            />
-            <Label
-              htmlFor="paypal"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-            >
-              <Icons.paypal className="mb-3 h-6 w-6" />
-              Paypal
-            </Label>
-          </div>
-          <div>
-            <RadioGroupItem
-              value="apple"
-              id="apple"
-              className="peer sr-only"
-              disabled
-            />
-            <Label
-              htmlFor="apple"
-              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-            >
-              <Icons.apple className="mb-3 h-6 w-6" />
-              Apple
-            </Label>
-          </div>
-        </RadioGroup>
-        <form onSubmit={pay}>
-          <div
-            className="border border-gray-500 p-2 rounded-sm"
-            id="card-element"
-          />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <Card>
+        <CardHeader>
+          <CardTitle>Payment Method</CardTitle>
+          <CardDescription>
+            Add a new payment method to your account.
+          </CardDescription>
+        </CardHeader>
 
-          <p
-            id="card-error"
-            role="alert"
-            className="text-red-700 text-center font-semibold relative top-2"
-          />
-          <Button className="w-full mt-4" type="submit">
-            Continue
-          </Button>
-        </form>
-      </CardContent>
-      {/* <CardFooter>
+        <CardContent className="grid gap-6">
+          <RadioGroup defaultValue="card" className="grid grid-cols-3 gap-4">
+            <div>
+              <RadioGroupItem value="card" id="card" className="peer sr-only" />
+              <Label
+                htmlFor="card"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="mb-3 h-6 w-6"
+                >
+                  <rect width="20" height="14" x="2" y="5" rx="2" />
+                  <path d="M2 10h20" />
+                </svg>
+                Card
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem
+                disabled
+                value="paypal"
+                id="paypal"
+                className="peer sr-only"
+              />
+              <Label
+                htmlFor="paypal"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <Icons.paypal className="mb-3 h-6 w-6" />
+                Paypal
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem
+                value="apple"
+                id="apple"
+                className="peer sr-only"
+                disabled
+              />
+              <Label
+                htmlFor="apple"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <Icons.apple className="mb-3 h-6 w-6" />
+                Apple
+              </Label>
+            </div>
+          </RadioGroup>
+          <form onSubmit={pay}>
+            <div
+              className="border border-gray-500 p-2 rounded-sm"
+              id="card-element"
+            />
+
+            <p
+              id="card-error"
+              role="alert"
+              className="text-red-700 text-center font-semibold relative top-2"
+            />
+            <Button className="w-full mt-4" type="submit" disabled={isPaying}>
+              Continue
+            </Button>
+          </form>
+        </CardContent>
+        {/* <CardFooter>
         <Button className="w-full">Continue</Button>
       </CardFooter> */}
-    </Card>
+      </Card>
+    </motion.div>
   );
 }

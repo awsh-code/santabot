@@ -64,21 +64,29 @@ const profileFormSchema = z.object({
 
 // This can come from your database or API.
 const defaultValues = {
-  name: "Jesus",
-  address: "123 main street",
-  zipcode: "SW2 SW@",
-  city: "Maracaibo",
-  country: "Venezuela",
+  name: "",
+  address: "",
+  zipcode: "",
+  city: "",
+  country: "",
 };
 
 export function AddressForm() {
+  // This can come from your database or API.
+  const defaultValues = {
+    name: "",
+    address: "",
+    zipcode: "",
+    city: "",
+    country: "",
+  };
   const form = useForm({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
     mode: "onChange",
   });
 
-  let currentAddress = true;
+  let currentAddress = false;
 
   async function onSubmit(data) {
     if (currentAddress) {
@@ -87,106 +95,114 @@ export function AddressForm() {
       const response = await updateUserAddress(data);
     } else {
       const response = await createUserAddress(data);
+      console.log("k!", response);
     }
-    // const response = await createUserAddress({
-    // //   addressId,
-    //   name,
-    //   address,
-    //   zipcode,
-    //   city,
-    //   country,
-    // });
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      title: "New address added",
+      // description: (
+      //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+      //     <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+      //   </pre>
+      // ),
     });
+    form.reset();
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Baby Jesus" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input placeholder="north pole av" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display address.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="zipcode"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Zip Code</FormLabel>
-              <FormControl>
-                <Input placeholder="6969" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public zip region code.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="city"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>City</FormLabel>
-              <FormControl>
-                <Input placeholder="maracaibo" {...field} />
-              </FormControl>
-              <FormDescription>This is your current city.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="country"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>country</FormLabel>
-              <FormControl>
-                <Input placeholder="venezuela" {...field} />
-              </FormControl>
-              <FormDescription>This is your current country.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <Button type="submit">Update profile</Button>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-6 gap-6"
+      >
+        <div className="col-span-6 sm:col-span-3">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Baby Jesus" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="col-span-6 sm:col-span-3">
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="north pole av" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display address.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="col-span-6 sm:col-span-3">
+          <FormField
+            control={form.control}
+            name="zipcode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Zip Code</FormLabel>
+                <FormControl>
+                  <Input placeholder="6969" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public zip region code.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="col-span-6 sm:col-span-3">
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="maracaibo" {...field} />
+                </FormControl>
+                <FormDescription>This is your current city.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="col-span-6 sm:col-span-3">
+          <FormField
+            control={form.control}
+            name="country"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Country</FormLabel>
+                <FormControl>
+                  <Input placeholder="venezuela" {...field} />
+                </FormControl>
+                <FormDescription>This is your current country.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="col-span-6 flex items-center sm:flex sm:items-center justify-center sm:justify-end sm:gap-4">
+          <Button type="submit">Add new address</Button>
+        </div>
       </form>
     </Form>
   );

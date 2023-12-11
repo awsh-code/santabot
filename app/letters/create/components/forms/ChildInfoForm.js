@@ -1,7 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import {
+  CalendarIcon,
+  CaretSortIcon,
+  CheckIcon,
+  ChevronRightIcon,
+  MinusCircledIcon,
+} from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { useFieldArray, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -33,6 +39,8 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
 import { useLetter } from "@/lib/store/letter";
+import React from "react";
+import { CalendarYear } from "@/components/ui/calendar-year";
 
 const genders = [
   { label: "Boy", value: "boy" },
@@ -73,6 +81,8 @@ const defaultValues = {
 };
 
 export function ChildInfoForm() {
+  // const [date, setDate] = React.useState();
+
   const updateChildInfo = useLetter((state) => state.updateChildInfo);
   const increaseStep = useLetter((state) => state.increaseStep);
   const form = useForm({
@@ -88,14 +98,14 @@ export function ChildInfoForm() {
   function onSubmit(data) {
     updateChildInfo(data);
     increaseStep();
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   ),
+    // });
   }
 
   return (
@@ -136,6 +146,7 @@ export function ChildInfoForm() {
             )}
           />
         </div>
+
         <div className="col-span-6 sm:col-span-3">
           <FormField
             control={form.control}
@@ -143,7 +154,7 @@ export function ChildInfoForm() {
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Date of birth</FormLabel>
-                <Popover>
+                {/* <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -171,6 +182,35 @@ export function ChildInfoForm() {
                       //   date > new Date() || date < new Date("1900-01-01")
                       // }
                       initialFocus
+                    />
+                  </PopoverContent>
+                </Popover> */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] justify-start text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {/* {date ? format(date, "PPP") : <span>Pick a date</span>} */}
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent align="start" className=" w-auto p-0">
+                    <CalendarYear
+                      mode="single"
+                      captionLayout="dropdown-buttons"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      fromYear={1960}
+                      toYear={2030}
                     />
                   </PopoverContent>
                 </Popover>
@@ -260,11 +300,21 @@ export function ChildInfoForm() {
                     Add toys or things your kid wants.
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} />
+                    <div className="flex gap-2">
+                      <Input {...field} />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => remove(index)}
+                      >
+                        <MinusCircledIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </FormControl>
-                  <button type="button" onClick={() => remove(index)}>
+
+                  {/* <button type="button" onClick={() => remove(index)}>
                     Delete
-                  </button>
+                  </button> */}
                   <FormMessage />
                 </FormItem>
               )}

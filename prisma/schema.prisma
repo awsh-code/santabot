@@ -10,7 +10,8 @@ datasource db {
 
 model Addresses {
   id         Int       @id @default(autoincrement())
-  user_id    String    @unique @db.Uuid
+  // user_id    String    @unique @db.Uuid
+  user_id    String    @db.Uuid
   name       String
   address    String
   zipcode    String

@@ -21,13 +21,32 @@ import { toast } from "@/components/ui/use-toast";
 import { useLetter } from "@/lib/store/letter";
 import { useOverlayBlocker } from "@/components/overlay-blocker";
 import { useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 // import { useTransform } from "framer-motion";
+import { Inter, Lobster, Mountains_of_Christmas } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
+const xmas = Mountains_of_Christmas({
+  weight: ["400", "700"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+const lobster = Lobster({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
 
 const appearanceFormSchema = z.object({
   template: z.enum(["light", "dark"], {
     required_error: "Please select a template.",
   }),
-  font: z.enum(["inter", "manrope", "system"], {
+  font: z.enum(["Inter", "Lobster", "Mountains_of_Christmas"], {
     invalid_type_error: "Select a font",
     required_error: "Please select a font.",
   }),
@@ -36,6 +55,7 @@ const appearanceFormSchema = z.object({
 // This can come from your database or API.
 const defaultValues = {
   template: "light",
+  template: "inter",
 };
 
 export function TemplateForm() {
@@ -51,14 +71,14 @@ export function TemplateForm() {
   function onSubmit(data) {
     updateTemplateDetails(data);
     increaseStep();
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   ),
+    // });
   }
 
   return (
@@ -67,7 +87,7 @@ export function TemplateForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex flex-col"
       >
-        <FormField
+        {/* <FormField
           control={form.control}
           name="font"
           render={({ field }) => (
@@ -95,13 +115,50 @@ export function TemplateForm() {
               <FormMessage />
             </FormItem>
           )}
+        /> */}
+        <FormField
+          control={form.control}
+          name="font"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Font</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a font you want to use" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Inter" className={`${inter.className}`}>
+                    Inter
+                  </SelectItem>
+                  <SelectItem
+                    value="Lobster"
+                    className={`${lobster.className}`}
+                  >
+                    Lobster
+                  </SelectItem>
+                  <SelectItem
+                    value="Mountains_of_Christmas"
+                    className={`${xmas.className}`}
+                  >
+                    Mountains of Christmas
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Set the font you want to use in the letter.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
         <FormField
           control={form.control}
           name="template"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel>template</FormLabel>
+              <FormLabel>Template</FormLabel>
               <FormDescription>
                 Select the template for the letter.
               </FormDescription>

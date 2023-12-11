@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma/prisma";
 import { NextResponse } from "next/server";
 // import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { readUserSession } from "@/lib/actions";
 
 export async function POST(req) {
   // const supabase = createServerComponentClient({ cookies })
@@ -10,13 +11,13 @@ export async function POST(req) {
     // const { data: { user } } = await supabase.auth.getUser()
 
     // if (!user) throw Error();
+    const { data } = await readUserSession();
 
     const body = await req.json();
 
     const order = await prisma.orders.create({
       data: {
-        user_id: 69,
-        // user_id: user?.id,
+        user_id: data?.session?.user?.id,
         stripe_id: body.stripe_id,
         name: body.name,
         address: body.address,

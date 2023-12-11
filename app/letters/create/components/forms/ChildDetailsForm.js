@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 
 import { toast } from "@/components/ui/use-toast";
 import { useLetter } from "@/lib/store/letter";
+import { MinusCircledIcon } from "@radix-ui/react-icons";
 
 const accountFormSchema = z.object({
   bad: z
@@ -90,14 +91,14 @@ export function ChildDetailsForm() {
   function onSubmit(data) {
     updateChildDetails(data);
     increaseStep();
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    // toast({
+    //   title: "You submitted the following values:",
+    //   description: (
+    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    //     </pre>
+    //   ),
+    // });
   }
 
   return (
@@ -121,12 +122,18 @@ export function ChildDetailsForm() {
                     Add bad things they did this year:
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} />
+                    <div className="flex gap-2">
+                      <Input {...field} />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => remove(index)}
+                      >
+                        <MinusCircledIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
-                  <button type="button" onClick={() => remove(index)}>
-                    Delete
-                  </button>
                 </FormItem>
               )}
             />
@@ -138,7 +145,7 @@ export function ChildDetailsForm() {
             className="mt-2"
             onClick={() => append({ value: "" })}
           >
-            Add nice things
+            Add bad things
           </Button>
         </div>
         <div className="col-span-6 sm:col-span-3">
@@ -156,12 +163,18 @@ export function ChildDetailsForm() {
                     Add nice things they did this year:
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} />
+                    <div className="flex gap-2">
+                      <Input {...field} />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => removeNice(index)}
+                      >
+                        <MinusCircledIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
-                  <button type="button" onClick={() => removeNice(index)}>
-                    Delete
-                  </button>
                 </FormItem>
               )}
             />
@@ -181,7 +194,7 @@ export function ChildDetailsForm() {
             <FormField
               control={form.control}
               key={field.id}
-              name={`nice.${index}.value`}
+              name={`other.${index}.value`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className={cn(index !== 0 && "sr-only")}>
@@ -191,12 +204,18 @@ export function ChildDetailsForm() {
                     Add Other things they did this year:
                   </FormDescription>
                   <FormControl>
-                    <Input {...field} />
+                    <div className="flex gap-2">
+                      <Input {...field} />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => removeOther(index)}
+                      >
+                        <MinusCircledIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
-                  <button type="button" onClick={() => removeOther(index)}>
-                    Delete
-                  </button>
                 </FormItem>
               )}
             />
@@ -208,7 +227,7 @@ export function ChildDetailsForm() {
             className="mt-2"
             onClick={() => appendOther({ value: "" })}
           >
-            Add nice things
+            Add other things
           </Button>
         </div>
         <div className="col-span-6 flex items-center sm:flex sm:items-center justify-center sm:justify-end sm:gap-4">
