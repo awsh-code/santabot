@@ -41,7 +41,8 @@ const appearanceFormSchema = z.object({
 export function SelectAddressForm({ userAddresses }) {
   // This can come from your database or API.
   const defaultValues = {
-    selectedAddress: userAddresses[0].id,
+    selectedAddress: null,
+    // selectedAddress: userAddresses[0].id,
   };
 
   const form = useForm({
@@ -53,7 +54,6 @@ export function SelectAddressForm({ userAddresses }) {
   );
 
   function onSubmit(data) {
-    console.log("address selected", data);
     updateAddressSelected(data);
   }
 
@@ -62,17 +62,17 @@ export function SelectAddressForm({ userAddresses }) {
       <form
         // onSubmit={form.handleSubmit(onSubmit)}
         // onChange={form.handleSubmit(onSubmit)}
-        className="space-y-8 flex flex-col"
+        className=" flex flex-col"
       >
         <FormField
           control={form.control}
           name="selectedAddress"
           render={({ field }) => (
-            <FormItem className="space-y-1">
-              <FormLabel>address</FormLabel>
+            <FormItem>
+              {/* <FormLabel>address</FormLabel>
               <FormDescription>
                 Select the address for the letter.
-              </FormDescription>
+              </FormDescription> */}
               <FormMessage />
               <RadioGroup
                 // onValueChange={form.handleSubmit(onSubmit)}
@@ -89,7 +89,8 @@ export function SelectAddressForm({ userAddresses }) {
                         <FormLabel className="[&:has([data-state=checked])>div]:border-primary">
                           <FormControl>
                             <RadioGroupItem
-                              value={address.id}
+                              value={address}
+                              //   value={address.id}
                               className="sr-only"
                             />
                           </FormControl>

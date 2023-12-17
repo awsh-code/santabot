@@ -24,7 +24,6 @@ function AddressCardList({ address }) {
     setIsLoading(true);
     try {
       const response = await deleteUserAddress(id);
-      console.log("response", response);
       toast({
         title: "Address delete",
       });

@@ -21,7 +21,6 @@ import { Label } from "@/components/ui/label";
 import { SelectAddressForm } from "../../create/components/forms/SelectAddressForm";
 
 export function AddressCard({ userAddresses }) {
-  console.log("userAddresses", userAddresses);
   return (
     <motion.div
       initial={{ opacity: 0 }}

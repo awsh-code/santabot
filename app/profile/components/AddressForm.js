@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { createUserAddress, updateUserAddress } from "@/lib/actions/addresses";
+import { useRouter } from "next/navigation";
 
 const profileFormSchema = z.object({
   name: z
@@ -72,6 +73,7 @@ const defaultValues = {
 };
 
 export function AddressForm() {
+  const router = useRouter();
   // This can come from your database or API.
   const defaultValues = {
     name: "",
@@ -86,26 +88,21 @@ export function AddressForm() {
     mode: "onChange",
   });
 
-  let currentAddress = false;
-
   async function onSubmit(data) {
-    if (currentAddress) {
-      data.addressId = 3;
-
-      const response = await updateUserAddress(data);
-    } else {
+    // const response = await updateUserAddress(data);
+    try {
       const response = await createUserAddress(data);
-      console.log("k!", response);
+      router.refresh();
+      toast({
+        title: "New address added",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+      });
     }
-    toast({
-      title: "New address added",
-      // description: (
-      //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-      //     <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-      //   </pre>
-      // ),
-    });
-    form.reset();
   }
 
   return (

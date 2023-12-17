@@ -22,7 +22,6 @@ export async function POST(req) {
       currency: "usd",
       automatic_payment_methods: { enabled: true },
     });
-    console.log("res", res);
 
     return NextResponse.json(res);
   } catch (error) {

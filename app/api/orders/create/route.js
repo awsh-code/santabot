@@ -38,10 +38,18 @@ export async function POST(req) {
     });
 
     await prisma.$disconnect();
-    return NextResponse.json("Order Complete", { status: 200 });
+    return NextResponse.json(
+      { order: order.id, message: "Order completed" },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error);
     await prisma.$disconnect();
-    return new NextResponse("Something went wrong", { status: 400 });
+    return new NextResponse("Something went wrong", {
+      status: 400,
+      error: error,
+    });
   }
 }

@@ -32,23 +32,23 @@ export function PaymentCard({ userAddresses }) {
   // router.push("/letters/success");
   const letterCartState = useLetter((state) => state);
   const resetLetter = useLetter((state) => state.resetLetter);
+  const addressSelected = useLetter((state) => state.addressSelected);
   const { lockApp, unlockApp } = useOverlayBlocker();
 
-  console.log("userAddresses", userAddresses);
-  console.log("letterCartState", letterCartState);
-  console.log("letterCartState.letterPackage", letterCartState.letterPackage);
+  // if (letterCartState.letter.step === 1) {
+  //   router.push("/letters");
+  // }
+
   let stripe = useRef(null);
   let elements = useRef(null);
   let card = useRef(null);
   let clientSecret = useRef(null);
 
   useEffect(() => {
-    console.log("here");
     setTimeout(() => stripeInit(), 300);
   }, []);
 
   const stripeInit = async () => {
-    console.log("go");
     stripe.current = await loadStripe(
       process.env.NEXT_PUBLIC_STRIPE_PK_KEY || ""
     );
@@ -91,16 +91,19 @@ export function PaymentCard({ userAddresses }) {
     setIsPaying(true);
     lockApp();
 
-    if (Object.entries(userAddresses).length == 0) {
+    if (Object.entries(addressSelected).length == 0) {
       toast({
-        title: "Please add an address",
+        title: "Please select an address",
       });
+      unlockApp();
+      setIsPaying(false);
       return;
     }
 
     let result = await stripe.current.confirmCardPayment(clientSecret.current, {
       payment_method: { card: card.current },
     });
+    console.log("result", result);
 
     if (result.error) {
       unlockApp();
@@ -114,11 +117,11 @@ export function PaymentCard({ userAddresses }) {
     } else {
       // useIsLoading(true)
       const addressDetails = {
-        name: userAddresses.name,
-        address: userAddresses.address,
-        zipcode: userAddresses.zipcode,
-        city: userAddresses.city,
-        country: userAddresses.country,
+        name: addressSelected.name,
+        address: addressSelected.address,
+        zipcode: addressSelected.zipcode,
+        city: addressSelected.city,
+        country: addressSelected.country,
       };
       const cart = [
         {
@@ -142,14 +145,28 @@ export function PaymentCard({ userAddresses }) {
             // total: cart.cartTotal()
           }),
         });
+        const responseData = await response.json();
+        if (response.status === 400) {
+          setIsPaying(false);
+          unlockApp();
+          toast({
+            variant: "destructive",
+            title: "Something went wrong?",
+            description: (
+              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                {/* <code className="text-white">{error.message}</code> */}
+              </pre>
+            ),
+          });
+        }
 
         if (response.status == 200) {
+          router.push(`/letters/success?order=${responseData.order}`);
           unlockApp();
           // toast.success("Order Complete!", { autoClose: 3000 });
           toast({
             title: "Order Complete!",
           });
-          router.push("/letters/success");
           resetLetter();
           // cart.clearCart();
         }

@@ -18,6 +18,10 @@ const sidebarNavItems = [
     title: "Address",
     href: "/profile/address",
   },
+  {
+    title: "Orders",
+    href: "/profile/orders",
+  },
 ];
 
 export default function SettingsLayout({ children }) {

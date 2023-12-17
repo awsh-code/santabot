@@ -4,7 +4,6 @@ import { useLetter } from "@/lib/store/letter";
 
 function Stepper() {
   const letter = useLetter((state) => state.letter);
-  console.log("letter", letter.step);
   return (
     <div className="  flex justify-center align-middle sticky top-[6rem]">
       {/* <ol className="grid grid-cols-1 divide-x divide-gray-100 overflow-hidden rounded-lg border border-gray-100 text-sm text-gray-500 sm:grid-cols-1"> */}
@@ -24,8 +23,8 @@ function Stepper() {
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-receipt"
             >
               <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z" />
@@ -53,8 +52,8 @@ function Stepper() {
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-info"
             >
               <circle cx="12" cy="12" r="10" />
@@ -82,8 +81,8 @@ function Stepper() {
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-scroll-text"
             >
               <path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v3h4" />
@@ -112,8 +111,8 @@ function Stepper() {
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-palette"
             >
               <circle cx="13.5" cy="6.5" r=".5" />
@@ -143,8 +142,8 @@ function Stepper() {
               fill="none"
               stroke="currentColor"
               stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-mail-check"
             >
               <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8" />
@@ -193,8 +192,8 @@ function Stepper() {
     //         fill="none"
     //         stroke="currentColor"
     //         stroke-width="2"
-    //         stroke-linecap="round"
-    //         stroke-linejoin="round"
+    //         strokeLinecap="round"
+    //         strokeLinejoin="round"
     //         class="lucide lucide-receipt"
     //       >
     //         <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z" />
@@ -225,8 +224,8 @@ function Stepper() {
     //   fill="none"
     //   stroke="currentColor"
     //   stroke-width="2"
-    //   stroke-linecap="round"
-    //   stroke-linejoin="round"
+    //   strokeLinecap="round"
+    //   strokeLinejoin="round"
     //   class="lucide lucide-info"
     // >
     //   <circle cx="12" cy="12" r="10" />
@@ -253,8 +252,8 @@ function Stepper() {
     //   fill="none"
     //   stroke="currentColor"
     //   stroke-width="2"
-    //   stroke-linecap="round"
-    //   stroke-linejoin="round"
+    //   strokeLinecap="round"
+    //   strokeLinejoin="round"
     //   class="lucide lucide-scroll-text"
     // >
     //   <path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v3h4" />
@@ -282,8 +281,8 @@ function Stepper() {
     //   fill="none"
     //   stroke="currentColor"
     //   stroke-width="2"
-    //   stroke-linecap="round"
-    //   stroke-linejoin="round"
+    //   strokeLinecap="round"
+    //   strokeLinejoin="round"
     //   class="lucide lucide-palette"
     // >
     //   <circle cx="13.5" cy="6.5" r=".5" />
@@ -312,8 +311,8 @@ function Stepper() {
     //   fill="none"
     //   stroke="currentColor"
     //   stroke-width="2"
-    //   stroke-linecap="round"
-    //   stroke-linejoin="round"
+    //   strokeLinecap="round"
+    //   strokeLinejoin="round"
     //   class="lucide lucide-mail-check"
     // >
     //   <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8" />

@@ -44,6 +44,7 @@ export default function RegisterForm() {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirm: "",
@@ -57,7 +58,7 @@ export default function RegisterForm() {
         password: data.password,
         options: {
           data: {
-            user_name: "Sofia",
+            user_name: data.name,
             email: data.email,
             avatar_url: "https://i.imgur.com/Z3UwNsJ.png",
           },
@@ -91,6 +92,24 @@ export default function RegisterForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Cody Claus"
+                  {...field}
+                  type="text"
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"

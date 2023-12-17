@@ -23,7 +23,7 @@ function ProductCard({ handleProductSelection, product }) {
           variant="outline"
           onClick={() => handleProductSelection(product)}
         >
-          Start Noww
+          Start Now
         </Button>
       </motion.div>
     );
