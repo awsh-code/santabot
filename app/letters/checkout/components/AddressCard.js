@@ -19,6 +19,7 @@ import AddressCardList from "@/app/profile/components/AddressCardList";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { SelectAddressForm } from "../../create/components/forms/SelectAddressForm";
+import { CreateAddressModal } from "@/app/profile/components/CreateAddressModal";
 
 export function AddressCard({ userAddresses }) {
   return (
@@ -28,13 +29,19 @@ export function AddressCard({ userAddresses }) {
       exit={{ opacity: 0 }}
     >
       <Card>
-        <CardHeader className="pb-3">
-          <CardTitle>Address</CardTitle>
-          <CardDescription>Choose your shipping address.</CardDescription>
+        <CardHeader className="pb-3 flex flex-row justify-between">
+          <div>
+            <CardTitle>Address</CardTitle>
+            <CardDescription>Choose your shipping address.</CardDescription>
+          </div>
+          <CreateAddressModal />
         </CardHeader>
         <CardContent>
-          <SelectAddressForm userAddresses={userAddresses} />
-
+          <ScrollArea className=" h-40">
+            <div className="p-4 ">
+              <SelectAddressForm userAddresses={userAddresses} />
+            </div>
+          </ScrollArea>
           {/* <ScrollArea className=" ">
             <div className="p-4 ">
               {userAddresses.map((address) => (

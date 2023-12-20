@@ -35,12 +35,13 @@ model Orders {
 }
 
 model OrderItem {
-  id         Int       @id @default(autoincrement())
-  order_id   Int
-  product_id Int
-  created_at DateTime? @default(now()) @db.Timestamptz(6)
-  order      Orders    @relation(fields: [order_id], references: [id])
-  product    Products  @relation(fields: [product_id], references: [id])
+  id          Int       @id @default(autoincrement())
+  order_id    Int
+  product_id  Int
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  letter_data Json?
+  order       Orders    @relation(fields: [order_id], references: [id])
+  product     Products  @relation(fields: [product_id], references: [id])
 }
 
 model Products {
@@ -52,4 +53,12 @@ model Products {
   featured    Boolean     @default(false)
   created_at  DateTime?   @default(now()) @db.Timestamptz(6)
   orderItem   OrderItem[]
+}
+
+model Coupons {
+  id         Int       @id @default(autoincrement())
+  percentage Int
+  code       String
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  available  Boolean   @default(false)
 }

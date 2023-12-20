@@ -56,9 +56,12 @@ const accountFormSchema = z.object({
     .max(30, {
       message: "Name must not be longer than 30 characters.",
     }),
-  dob: z.date({
-    required_error: "A date of birth is required.",
+  age: z.string({
+    required_error: "An age is required.",
   }),
+  // dob: z.date({
+  //   required_error: "A date of birth is required.",
+  // }),
   gender: z.string({
     required_error: "Please select a gender.",
   }),
@@ -146,45 +149,30 @@ export function ChildInfoForm() {
             )}
           />
         </div>
-
         <div className="col-span-6 sm:col-span-3">
+          <FormField
+            control={form.control}
+            name="age"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Age</FormLabel>
+                <FormControl>
+                  <Input placeholder="8" type="number" min={1} {...field} />
+                </FormControl>
+                <FormDescription>how many years old</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* <div className="col-span-6 sm:col-span-3">
           <FormField
             control={form.control}
             name="dob"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Date of birth</FormLabel>
-                {/* <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      // disabled={(date) =>
-                      //   date > new Date() || date < new Date("1900-01-01")
-                      // }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover> */}
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -195,7 +183,6 @@ export function ChildInfoForm() {
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
-                      {/* {date ? format(date, "PPP") : <span>Pick a date</span>} */}
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
@@ -221,7 +208,7 @@ export function ChildInfoForm() {
               </FormItem>
             )}
           />
-        </div>
+        </div> */}
         <div className="col-span-6 sm:col-span-3">
           <FormField
             control={form.control}

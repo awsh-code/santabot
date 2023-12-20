@@ -26,11 +26,13 @@ import { useEffect, useRef, useState } from "react";
 import { useLetter } from "@/lib/store/letter";
 import { useOverlayBlocker } from "@/components/overlay-blocker";
 import { useRouter } from "next/navigation";
+import CouponModal from "@/components/letter/coupon-modal";
 
 export function PaymentCard({ userAddresses }) {
   const router = useRouter();
   // router.push("/letters/success");
   const letterCartState = useLetter((state) => state);
+  const couponState = useLetter((state) => state.coupon);
   const resetLetter = useLetter((state) => state.resetLetter);
   const addressSelected = useLetter((state) => state.addressSelected);
   const { lockApp, unlockApp } = useOverlayBlocker();
@@ -44,18 +46,39 @@ export function PaymentCard({ userAddresses }) {
   let card = useRef(null);
   let clientSecret = useRef(null);
 
+  const calcPercentage = (num, per) => {
+    const percentageTotal = (num / 100) * per;
+    return num - percentageTotal;
+  };
+
   useEffect(() => {
     setTimeout(() => stripeInit(), 300);
-  }, []);
+  }, [couponState]);
 
   const stripeInit = async () => {
     stripe.current = await loadStripe(
       process.env.NEXT_PUBLIC_STRIPE_PK_KEY || ""
     );
 
+    console.log(
+      "total",
+      couponState
+        ? calcPercentage(
+            letterCartState.letterPackage.price,
+            couponState.percentage
+          )
+        : letterCartState.letterPackage.price
+    );
     const response = await fetch("/api/stripe", {
       method: "POST",
-      body: JSON.stringify({ amount: 200 }),
+      body: JSON.stringify({
+        amount: couponState
+          ? calcPercentage(
+              letterCartState.letterPackage.price,
+              couponState.percentage
+            )
+          : letterCartState.letterPackage.price,
+      }),
       // body: JSON.stringify({ amount: cart.cartTotal() }),
     });
     const result = await response.json();
@@ -140,7 +163,13 @@ export function PaymentCard({ userAddresses }) {
             city: addressDetails.city,
             country: addressDetails.country,
             products: cart,
-            total: letterCartState.letterPackage.price,
+            total: couponState
+              ? calcPercentage(
+                  letterCartState.letterPackage.price,
+                  couponState.percentage
+                )
+              : letterCartState.letterPackage.price,
+            // total: letterCartState.letterPackage.price,
             // products: cart.getCart(),
             // total: cart.cartTotal()
           }),
@@ -196,11 +225,14 @@ export function PaymentCard({ userAddresses }) {
       exit={{ opacity: 0 }}
     >
       <Card>
-        <CardHeader>
-          <CardTitle>Payment Method</CardTitle>
-          <CardDescription>
-            Add a new payment method to your account.
-          </CardDescription>
+        <CardHeader className="flex flex-row justify-between">
+          <div>
+            <CardTitle>Payment Method</CardTitle>
+            <CardDescription>
+              Add a new payment method to your account.
+            </CardDescription>
+          </div>
+          <CouponModal />
         </CardHeader>
 
         <CardContent className="grid gap-6">

@@ -56,12 +56,12 @@ export default function SignInForm() {
         });
       } else {
         toast({
-          title: "You are successfully register.",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">signin complete</code>
-            </pre>
-          ),
+          title: "You are successfully sign in.",
+          // description: (
+          //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          //     <code className="text-white">signin complete</code>
+          //   </pre>
+          // ),
         });
         router.refresh();
       }
@@ -108,7 +108,11 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full flex gap-2">
+        <Button
+          type="submit"
+          className="w-full flex gap-2"
+          disabled={isPending}
+        >
           SignIn
           <AiOutlineLoading3Quarters
             className={cn(" animate-spin", { hidden: !isPending })}

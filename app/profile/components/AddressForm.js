@@ -19,6 +19,9 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { createUserAddress, updateUserAddress } from "@/lib/actions/addresses";
 import { useRouter } from "next/navigation";
+import { startTransition, useTransition } from "react";
+import Loader from "@/components/loader";
+import { cn } from "@/lib/utils";
 
 const profileFormSchema = z.object({
   name: z
@@ -74,6 +77,7 @@ const defaultValues = {
 
 export function AddressForm() {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   // This can come from your database or API.
   const defaultValues = {
     name: "",
@@ -89,20 +93,22 @@ export function AddressForm() {
   });
 
   async function onSubmit(data) {
-    // const response = await updateUserAddress(data);
-    try {
-      const response = await createUserAddress(data);
-      router.refresh();
-      toast({
-        title: "New address added",
-      });
-      form.reset();
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Something went wrong",
-      });
-    }
+    startTransition(async () => {
+      // const response = await updateUserAddress(data);
+      try {
+        const response = await createUserAddress(data);
+        router.refresh();
+        toast({
+          title: "New address added",
+        });
+        form.reset();
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Something went wrong",
+        });
+      }
+    });
   }
 
   return (
@@ -198,7 +204,10 @@ export function AddressForm() {
           />
         </div>
         <div className="col-span-6 flex items-center sm:flex sm:items-center justify-center sm:justify-end sm:gap-4">
-          <Button type="submit">Add new address</Button>
+          <Button type="submit" disabled={isPending}>
+            Add new address{" "}
+            {/* <Loader className={cn(" animate-spin", { hidden: !isPending })} /> */}
+          </Button>
         </div>
       </form>
     </Form>

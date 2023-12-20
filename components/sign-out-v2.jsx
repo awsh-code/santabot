@@ -7,9 +7,12 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export default function SignOutV2() {
   const [isPending, startTransition] = useTransition();
+  const { lockApp, unlockApp } = useOverlayBlocker();
   const onSubmit = async () => {
     startTransition(async () => {
+      lockApp();
       await logout();
+      unlockApp();
     });
   };
 
