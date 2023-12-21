@@ -51,9 +51,9 @@ export function PaymentCard({ userAddresses }) {
     return num - percentageTotal;
   };
 
-  useEffect(() => {
-    setTimeout(() => stripeInit(), 300);
-  }, [couponState]);
+  // useEffect(() => {
+  //   setTimeout(() => stripeInit(), 300);
+  // }, [couponState]);
 
   const stripeInit = async () => {
     stripe.current = await loadStripe(
@@ -218,6 +218,36 @@ export function PaymentCard({ userAddresses }) {
       // useIsLoading(false)
     }
   };
+  const payV2 = async (event) => {
+    event.preventDefault();
+    setIsPaying(true);
+    lockApp();
+
+    if (Object.entries(addressSelected).length == 0) {
+      toast({
+        title: "Please select an address",
+      });
+      unlockApp();
+      setIsPaying(false);
+      return;
+    }
+
+    const response = await fetch("/api/stripe", {
+      method: "POST",
+      body: JSON.stringify({
+        amount: couponState
+          ? calcPercentage(
+              letterCartState.letterPackage.price,
+              couponState.percentage
+            )
+          : letterCartState.letterPackage.price,
+      }),
+      // body: JSON.stringify({ amount: cart.cartTotal() }),
+    });
+    const data = await response.json();
+    console.log("data", data);
+    window.location.href = data.url;
+  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -232,7 +262,7 @@ export function PaymentCard({ userAddresses }) {
               Add a new payment method to your account.
             </CardDescription>
           </div>
-          <CouponModal />
+          {/* <CouponModal /> */}
         </CardHeader>
 
         <CardContent className="grid gap-6">
@@ -290,8 +320,9 @@ export function PaymentCard({ userAddresses }) {
               </Label>
             </div>
           </RadioGroup>
-          <form onSubmit={pay}>
-            <div
+          {/* <form onSubmit={pay}> */}
+          <form onSubmit={payV2}>
+            {/* <div
               className="border border-gray-500 p-2 rounded-sm"
               id="card-element"
             />
@@ -300,7 +331,7 @@ export function PaymentCard({ userAddresses }) {
               id="card-error"
               role="alert"
               className="text-red-700 text-center font-semibold relative top-2"
-            />
+            /> */}
             <Button className="w-full mt-4" type="submit" disabled={isPaying}>
               Continue
             </Button>

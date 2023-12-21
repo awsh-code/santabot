@@ -39,15 +39,31 @@ export async function POST(req) {
     //   automatic_payment_methods: { enabled: true },
 
     // });
-    const res = await stripe.checkout.sessions.create({
+    const stripeSession = await stripe.checkout.sessions.create({
       // amount: Number(300),
       // amount: Number(),
-      amount: Math.round(Number(body.amount) * 100),
-      currency: "usd",
-      automatic_payment_methods: { enabled: true },
+      // amount: Math.round(Number(body.amount) * 100),
+      // currency: "usd",
+      // automatic_payment_methods: { enabled: true },
+      mode: "payment",
+      customer_email: "erraco.wow@gmail.com",
+      success_url:
+        "http://localhost:3000/letters/success?session_id={CHECKOUT_SESSION_ID}",
+      line_items: [
+        {
+          price: "price_1OPYirINj6G1UXatKWCJxVo3",
+          quantity: 1,
+        },
+      ],
+      discounts: [
+        {
+          coupon: "0WBzaasN",
+        },
+      ],
     });
 
-    return NextResponse.json(res);
+    return new NextResponse(JSON.stringify({ url: stripeSession.url }));
+    // return NextResponse.json(res);
   } catch (error) {
     console.log(error);
     return new NextResponse("Something went wrong", { status: 400 });
